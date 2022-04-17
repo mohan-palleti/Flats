@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Table() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [term, setTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [sort, setSort] = useState(false);
   const CityData = useSelector((state) => state.cityReducer.cities);
@@ -42,6 +43,24 @@ function Table() {
   function eachFlat(i) {
     navigate(`/flat/${i}`);
   }
+  function searchTerm(val) {
+    // let arr = useSelector((state) => state.cityReducer.cities);
+    // console.log("arrrrrr", arr);
+    // let res = arr.filter((ele) => ele.block.includes(val));
+    axios
+      .get(`https://flatsunit6.herokuapp.com/flat/search?s=${val}`, {
+        headers: {
+          token:
+            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div>
@@ -58,6 +77,13 @@ function Table() {
           <option value="owner">Owner</option>
           <option value="tenant">Tenant</option>
         </select>
+        <input
+          type="search"
+          onChange={(e) => {
+            setTerm(e.target.value);
+            searchTerm(e.target.value);
+          }}
+        />
         <button
           className="btn btn-secondary m-2"
           onClick={() => {
@@ -67,6 +93,7 @@ function Table() {
           Sort By Flat Number
         </button>
       </div>
+      <div className="search"></div>
       <table className="table w-75 m-auto">
         <thead>
           <tr>

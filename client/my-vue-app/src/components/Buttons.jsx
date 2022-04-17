@@ -10,6 +10,9 @@ function Buttons() {
     console.log(data);
     dispatch(getData(data));
   }
+  function searchTerm(val) {
+    console.log(val);
+  }
   return (
     <div>
       <select
@@ -24,6 +27,12 @@ function Buttons() {
         <option value="bagladesh">Bangladesh</option>
         <option value="nepal">Nepal</option>
       </select>
+      <input
+        type="search"
+        onChange={(e) => {
+          searchTerm(e.target.value);
+        }}
+      />
       <button
         className="btn btn-secondary m-2"
         onClick={() => {
