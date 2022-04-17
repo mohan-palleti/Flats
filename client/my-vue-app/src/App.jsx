@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
-import Addflat from "./components/Addflat";
+import AddFlat from "./components/Addflat";
 import AddResident from "./components/AddResident";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -20,7 +20,7 @@ function App() {
       <Route path="/" element={user ? <Home /> : <Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/add-flat" element={<Addflat />} />
+      <Route path="/add-flat" element={<AddFlat />} />
       <Route path="/flat/:id" element={<SingleFlat />} />
       <Route path="/add-res" element={<AddResident />} />
     </Routes>

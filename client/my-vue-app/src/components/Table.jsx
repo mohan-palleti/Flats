@@ -101,6 +101,7 @@ function Table() {
                 {term.map((ele) => (
                   <>
                     <div
+                      key={ele._id}
                       className="p-3 mb-2 bg-light text-dark position-absolute border bg-light"
                       onClick={() => {
                         setTerm(null);

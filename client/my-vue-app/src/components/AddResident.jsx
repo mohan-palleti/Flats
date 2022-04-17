@@ -24,7 +24,7 @@ function AddResident() {
 
   // submit function----------------------------------------------------------
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);
     setAdding(toggle[1]);
     axios
       .post("https://flatsunit6.herokuapp.com/resident", data, {
@@ -34,7 +34,7 @@ function AddResident() {
         },
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
 
         // dispatch(Login_action(res.data));
         setAdding(toggle[2]);
@@ -69,13 +69,13 @@ function AddResident() {
             },
           })
           .then((res) => {
-            console.log("fetching success", res.data);
+            //console.log("fetching success", res.data);
             //setCitiesData(res.data);
             dispatch(getData(res.data));
             setResData(res.data);
           });
 
-        console.log(res);
+        // console.log(res);
       });
   }
   // useEffect--------------------------------------------------
@@ -88,7 +88,7 @@ function AddResident() {
         },
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setResData(res.data);
       })
       .catch((err) => {
@@ -119,9 +119,7 @@ function AddResident() {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <label for="inputAddress" className="form-label">
-                Age
-              </label>
+              <label className="form-label">Age</label>
               <input
                 type="text"
                 className="form-control"
@@ -133,9 +131,7 @@ function AddResident() {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <label for="inputAddress" className="form-label">
-                Gender
-              </label>
+              <label className="form-label">Gender</label>
               <input
                 type="text"
                 className="form-control"
