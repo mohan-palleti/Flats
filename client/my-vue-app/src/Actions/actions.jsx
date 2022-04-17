@@ -17,3 +17,15 @@ export const UserData = (data) => {
     payload: data,
   };
 };
+export const Login_action = (data) => {
+  return {
+    type: "LOGIN",
+    payload: data,
+  };
+};
+export const LogOut_action = (data) => {
+  return {
+    type: "LOGOUT",
+    payload: data,
+  };
+};

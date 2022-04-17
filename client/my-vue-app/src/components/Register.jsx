@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
+
   const [adding, setAdding] = useState(false);
   const {
     register,
@@ -14,62 +15,80 @@ function Register() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    // axios.post("", data).then((res) => {
-    //   setAdding(true);
-    //   setTimeout(() => {
-    //     navigate("/");
-    //   }, 1000);
-    // });
-    console.log(data);
+    setAdding(true);
+    axios
+      .post("https://flatsunit6.herokuapp.com/user/register", data)
+      .then((res) => {
+        console.log(res);
+        if (res.status === false) {
+          return alert("enter correct deatils");
+        }
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      })
+      .catch((err) => {
+        alert("Enter Correct Details");
+      });
+    //console.log(data);
   };
 
   return (
     <div>
-      <div className="d-flex justify-content-around p-2">
+      <div className="d-flex justify-content-around p-2 w-50 m-auto">
         <h1>Register</h1>
-        <button className="btn btn-warning">Sign IN</button>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Sign IN
+        </button>
       </div>
       <form
-        className="row g-3 w-50 m-auto p-4"
+        style={{ color: "white" }}
+        className="row g-3 w-50 m-auto p-4 border border-success bg-secondary bg-gradient"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="col-md-6">
-          <label className="form-label">Country</label>
+          <label className="form-label">Name</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Country"
-            {...register("country", { required: true })}
+            placeholder="name"
+            {...register("username", { required: true })}
             required
           />
         </div>
         <div className="col-md-6">
-          <label className="form-label">City</label>
+          <label className="form-label">Email</label>
           <input
-            type="text"
+            type="email"
             className="form-control"
-            placeholder="City"
-            {...register("city", { required: true })}
+            placeholder="abc@ac.com"
+            {...register("email", { required: true })}
             required
           />
         </div>
         <div className="col-12">
           <label for="inputAddress" className="form-label">
-            Population
+            Password
           </label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             id="inputAddress"
-            placeholder="Population"
-            {...register("population", { required: true })}
+            placeholder="Password"
+            {...register("password", { required: true })}
             required
           />
         </div>
 
         <div className="col-12">
           <button type="submit" className="btn btn-primary">
-            ADD
+            Register
           </button>
           {adding ? <p>Creating a Account...</p> : ""}
         </div>

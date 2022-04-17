@@ -1,7 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { LogOut_action } from "../Actions/actions";
 function Navbar() {
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   function addPage(str) {
     if (str === "count") {
@@ -11,6 +13,10 @@ function Navbar() {
     }
     if (str === "home") {
       navigate("/");
+    }
+    if (str === "logout") {
+      dispatch(LogOut_action(null));
+      navigate("/login");
     }
   }
   return (
@@ -42,6 +48,14 @@ function Navbar() {
           }}
         >
           ADD Residents
+        </button>
+        <button
+          className="btn btn btn-success m-2"
+          onClick={() => {
+            addPage("logout");
+          }}
+        >
+          Logout
         </button>
       </div>
     </div>
