@@ -41,8 +41,7 @@ router.post("/login", async (req, res) => {
 
     const accessToken = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      "flats",
-      { expiresIn: "5d" }
+      "flats"
     );
 
     const { password, ...info } = user._doc;

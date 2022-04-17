@@ -6,9 +6,12 @@ const connect = require("./configs/db");
 var cors = require("cors");
 
 app.use(cors());
-
+const flat_controll = require("./controllers/Flat");
+const resident_controll = require("./controllers/resident");
 const user_auth = require("./controllers/auth_controllers");
 app.use("/user", user_auth);
+app.use("/flat", flat_controll);
+app.use("/resident", resident_controll);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
