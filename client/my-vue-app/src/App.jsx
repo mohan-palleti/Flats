@@ -7,7 +7,7 @@ import AddFlat from "./components/Addflat";
 import AddResident from "./components/AddResident";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import Register from "./components/register";
+import Register from "./components/Register";
 import SingleFlat from "./components/SingleFlat";
 
 function App() {
