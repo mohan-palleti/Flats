@@ -71,9 +71,7 @@ function Login() {
         </div>
         <div className="row">
           <div className="col-md-6">
-            <label for="inputAddress" className="form-label">
-              Password
-            </label>
+            <label className="form-label">Password</label>
             <input
               type="password"
               className="form-control"

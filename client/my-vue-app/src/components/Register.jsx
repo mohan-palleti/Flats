@@ -73,9 +73,7 @@ function Register() {
           />
         </div>
         <div className="col-12">
-          <label for="inputAddress" className="form-label">
-            Password
-          </label>
+          <label className="form-label">Password</label>
           <input
             type="password"
             className="form-control"
