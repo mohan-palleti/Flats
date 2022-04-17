@@ -6,10 +6,10 @@ function Navbar() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
   function addPage(str) {
-    if (str === "count") {
-      navigate("/add-country");
+    if (str === "flat") {
+      navigate("/add-flat");
     } else {
-      navigate("/add-city");
+      navigate("/add-res");
     }
     if (str === "home") {
       navigate("/");
@@ -36,7 +36,7 @@ function Navbar() {
         <button
           className="btn btn btn-success m-2"
           onClick={() => {
-            addPage("count");
+            addPage("flat");
           }}
         >
           ADD Flats
@@ -44,7 +44,7 @@ function Navbar() {
         <button
           className="btn btn btn-success m-2"
           onClick={() => {
-            addPage("city");
+            addPage("res");
           }}
         >
           ADD Residents
