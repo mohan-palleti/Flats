@@ -8,6 +8,7 @@ import AddResident from "./components/AddResident";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/register";
+import SingleFlat from "./components/SingleFlat";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,6 +21,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/add-flat" element={<Addflat />} />
+      <Route path="/flat/:id" element={<SingleFlat />} />
       <Route path="/add-res" element={<AddResident />} />
     </Routes>
   );

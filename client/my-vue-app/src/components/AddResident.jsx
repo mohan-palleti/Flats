@@ -48,6 +48,7 @@ function AddResident() {
         alert("Enter Correct Details");
       });
   };
+  // delete function------------------------------------------------
   function deleteCity(i) {
     axios
       .delete(`https://flatsunit6.herokuapp.com/resident/${i}`, {
@@ -77,6 +78,7 @@ function AddResident() {
         console.log(res);
       });
   }
+  // useEffect--------------------------------------------------
   useEffect(() => {
     axios
       .get("https://flatsunit6.herokuapp.com/resident", {
@@ -96,6 +98,7 @@ function AddResident() {
   return (
     <div>
       <Navbar />
+      <h1>Add Residents</h1>
       <>
         <form
           style={{ color: "white" }}

@@ -2,46 +2,45 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../Actions/actions";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Table() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [filter, setFilter] = useState("");
   const [sort, setSort] = useState(false);
   const CityData = useSelector((state) => state.cityReducer.cities);
   //console.log(CityData);
 
-  const [citiesData, setCitiesData] = useState(CityData);
+  const [resData, setResData] = useState(CityData);
   useEffect(() => {
-    // axios.get("").then((res) => {
-    //   console.log("fetching success", res.data);
-    //   //setCitiesData(res.data);
-    //   dispatch(getData(res.data));
-    //   setCitiesData(res.data);
-    // });
-  }, []);
-  useEffect(() => {
-    setCitiesData(CityData);
-  }, [sort]);
-  let data = useSelector((state) => state.cityReducer.cities);
-  function sortPopulation() {
-    data = data.sort((a, b) => a.population - b.population);
-    console.log(data);
-    setSort(!sort);
-    dispatch(getData(data));
-  }
-
-  function deleteCity(i) {
-    axios.delete(`http://localhost:3004/cities/${i}`).then((res) => {
-      // dispatch(getData(res.data));
-      // setSort(!sort);
-      axios.get("http://localhost:3004/cities").then((res) => {
+    axios
+      .get("https://flatsunit6.herokuapp.com/flat", {
+        headers: {
+          token:
+            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      })
+      .then((res) => {
         console.log("fetching success", res.data);
         //setCitiesData(res.data);
         dispatch(getData(res.data));
-        setCitiesData(res.data);
+        setResData(res.data);
       });
-
-      console.log(res);
-    });
+  }, []);
+  // useEffect(() => {
+  //   setResData(CityData);
+  // }, [sort]);
+  let data = useSelector((state) => state.cityReducer.cities);
+  function sortPopulation() {
+    data = data.sort((a, b) => a.number - b.number);
+    console.log(data);
+    setResData([...data]);
+    //setSort(!sort);
+    // dispatch(getData(data));
+  }
+  function eachFlat(i) {
+    navigate(`/flat/${i}`);
   }
 
   return (
@@ -51,9 +50,13 @@ function Table() {
           name="country_filter"
           className="form-select w-25 m-auto"
           id="country_filter"
+          onChange={(e) => {
+            setFilter(e.target.value);
+          }}
         >
-          <option value="">Filter By Country</option>
-          <option value="india">india</option>
+          <option value="">Filter By Type</option>
+          <option value="owner">Owner</option>
+          <option value="tenant">Tenant</option>
         </select>
         <button
           className="btn btn-secondary m-2"
@@ -61,7 +64,7 @@ function Table() {
             sortPopulation();
           }}
         >
-          Sort By Population
+          Sort By Flat Number
         </button>
       </div>
       <table className="table w-75 m-auto">
@@ -75,24 +78,30 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {/* {citiesData.map((ele) => (
-            <>
-              <tr key={ele.id}>
-                <th scope="row">{ele.id}</th>
-                <td>{ele.country}</td>
-                <td>{ele.city}</td>
-                <td>{ele.population}</td>
-                <td>Edit</td>
-                <td
+          {resData
+            .filter((ele) => ele.type.includes(filter))
+            .map((ele, i) => (
+              <>
+                <tr
+                  key={ele.id}
                   onClick={() => {
-                    deleteCity(ele.id);
+                    eachFlat(ele._id);
                   }}
                 >
-                  Delete
-                </td>
-              </tr>
-            </>
-          ))} */}
+                  <th scope="row">{+(i + 1)}</th>
+                  <td>{ele.type}</td>
+                  <td>{ele.block}</td>
+                  <td>{ele.number}</td>
+                  <td>
+                    {ele.residents.map((ele) => (
+                      <>
+                        <td>{ele.name}</td>
+                      </>
+                    ))}
+                  </td>
+                </tr>
+              </>
+            ))}
         </tbody>
       </table>
     </div>

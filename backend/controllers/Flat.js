@@ -20,7 +20,10 @@ router.post("/", verify, async (req, res) => {
 
 router.get("/find/:id", verify, async (req, res) => {
   try {
-    const flat = await Flat.findById(req.params.id);
+    const flat = await Flat.findById(req.params.id)
+      .populate({ path: "residents" })
+      .lean()
+      .exec();
     res.status(200).json(flat);
   } catch (err) {
     res.status(500).json(err);
