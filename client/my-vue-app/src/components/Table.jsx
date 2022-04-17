@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Table() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState(null);
   const [filter, setFilter] = useState("");
   const [sort, setSort] = useState(false);
   const CityData = useSelector((state) => state.cityReducer.cities);
@@ -23,19 +23,17 @@ function Table() {
         },
       })
       .then((res) => {
-        console.log("fetching success", res.data);
+        // console.log("fetching success", res.data);
         //setCitiesData(res.data);
         dispatch(getData(res.data));
         setResData(res.data);
       });
   }, []);
-  // useEffect(() => {
-  //   setResData(CityData);
-  // }, [sort]);
+
   let data = useSelector((state) => state.cityReducer.cities);
   function sortPopulation() {
     data = data.sort((a, b) => a.number - b.number);
-    console.log(data);
+    //console.log(data);
     setResData([...data]);
     //setSort(!sort);
     // dispatch(getData(data));
@@ -43,28 +41,39 @@ function Table() {
   function eachFlat(i) {
     navigate(`/flat/${i}`);
   }
+  // ----------------------------------debounce----------------------------------------------------------------------------------------------------
+  function debounce(cb, delay) {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        cb(...args);
+      }, delay);
+    };
+  }
+  let updateDebouce = debounce(searchTerm, 1000);
   function searchTerm(val) {
-    // let arr = useSelector((state) => state.cityReducer.cities);
-    // console.log("arrrrrr", arr);
-    // let res = arr.filter((ele) => ele.block.includes(val));
-    axios
-      .get(`https://flatsunit6.herokuapp.com/flat/search?s=${val}`, {
-        headers: {
-          token:
-            "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (val.length > 0) {
+      axios
+        .get(`https://flatsunit6.herokuapp.com/flat/search?s=${val}`, {
+          headers: {
+            token:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setTerm(res.data.result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   return (
     <div>
-      <div>
+      <div className="d-flex">
         <select
           name="country_filter"
           className="form-select w-25 m-auto"
@@ -77,13 +86,50 @@ function Table() {
           <option value="owner">Owner</option>
           <option value="tenant">Tenant</option>
         </select>
-        <input
-          type="search"
-          onChange={(e) => {
-            setTerm(e.target.value);
-            searchTerm(e.target.value);
-          }}
-        />
+        <div className="position-relative">
+          <input
+            type="search"
+            className="input-group-text"
+            placeholder="Search"
+            onChange={(e) => {
+              updateDebouce(e.target.value);
+            }}
+          />
+          <div>
+            {term ? (
+              <>
+                {term.map((ele) => (
+                  <>
+                    <div
+                      className="p-3 mb-2 bg-light text-dark position-absolute border bg-light"
+                      onClick={() => {
+                        setTerm(null);
+                        navigate(`/flat/${ele._id}`);
+                      }}
+                    >
+                      <p>
+                        {" "}
+                        <b>Type-</b> {ele.type}
+                      </p>
+                      <p>
+                        {" "}
+                        <b>Number- </b> {ele.number}
+                      </p>
+                      <p>
+                        {" "}
+                        <b>Block- </b> {ele.block}
+                      </p>
+                      <p>click for more deatials</p>
+                    </div>
+                  </>
+                ))}
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+
         <button
           className="btn btn-secondary m-2"
           onClick={() => {
@@ -94,7 +140,7 @@ function Table() {
         </button>
       </div>
       <div className="search"></div>
-      <table className="table w-75 m-auto">
+      <table className="table bg-light w-75 border m-auto">
         <thead>
           <tr>
             <th scope="col">Id</th>
@@ -119,13 +165,12 @@ function Table() {
                   <td>{ele.type}</td>
                   <td>{ele.block}</td>
                   <td>{ele.number}</td>
-                  <td>
-                    {ele.residents.map((ele) => (
-                      <>
-                        <td>{ele.name}</td>
-                      </>
-                    ))}
-                  </td>
+
+                  {ele.residents.map((ele) => (
+                    <>
+                      <td>{ele.name}</td>
+                    </>
+                  ))}
                 </tr>
               </>
             ))}

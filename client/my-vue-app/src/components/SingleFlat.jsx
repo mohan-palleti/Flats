@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function SingleFlat() {
   let { id } = useParams();
@@ -13,24 +14,27 @@ function SingleFlat() {
 
   return (
     <div>
-      <h1>Flat details</h1>
-      {single2.map((ele) => (
-        <>
-          <ul>
-            <li>Type {ele.type}</li>
-            <li>Block {ele.block}</li>
-            <li>Number {ele.number}</li>
+      <Navbar />
+      <div className="bg-light w-75 border m-auto">
+        <h1>Flat details</h1>
+        {single2.map((ele) => (
+          <>
             <ul>
-              {ele.residents.map((ele) => (
-                <>
-                  <li>Name {ele.name}</li>
-                  <li>Age {ele.age}</li>
-                </>
-              ))}
+              <li>Type {ele.type}</li>
+              <li>Block {ele.block}</li>
+              <li>Number {ele.number}</li>
+              <ul>
+                {ele.residents.map((ele) => (
+                  <>
+                    <li>Name {ele.name}</li>
+                    <li>Age {ele.age}</li>
+                  </>
+                ))}
+              </ul>
             </ul>
-          </ul>
-        </>
-      ))}
+          </>
+        ))}
+      </div>
     </div>
   );
 }
