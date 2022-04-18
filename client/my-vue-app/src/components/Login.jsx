@@ -23,15 +23,17 @@ function Login() {
       .post("https://flatsunit6.herokuapp.com/user/login", data)
       .then((res) => {
         console.log(res);
-        if (res.status === false) {
+        if (res.data.status === "false") {
+          setAdding(false);
           return alert("enter correct deatils");
-        }
-        dispatch(Login_action(res.data));
-        console.log(res.data);
+        } else {
+          dispatch(Login_action(res.data));
+          console.log(res.data);
 
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        }
       })
       .catch((err) => {
         alert("Enter Correct Details");

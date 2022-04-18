@@ -9,6 +9,7 @@ function Table() {
   const dispatch = useDispatch();
   const [term, setTerm] = useState(null);
   const [filter, setFilter] = useState("");
+
   const [sort, setSort] = useState(false);
   const CityData = useSelector((state) => state.cityReducer.cities);
   //console.log(CityData);
@@ -177,6 +178,13 @@ function Table() {
             ))}
         </tbody>
       </table>
+      <br />
+      <br />
+      <div className="d-flex w-25 m-auto justify-content-evenly">
+        <button className="btn btn-dark">Prev</button>
+        <button className="btn btn-light disabled">2</button>
+        <button className="btn btn-dark">Next</button>
+      </div>
     </div>
   );
 }

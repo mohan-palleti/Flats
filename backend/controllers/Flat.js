@@ -24,7 +24,7 @@ router.get("/find/:id", verify, async (req, res) => {
       .populate({ path: "residents" })
       .lean()
       .exec();
-    res.status(200).json(flat);
+    res.status(201).json(flat);
   } catch (err) {
     res.status(500).json(err);
   }
