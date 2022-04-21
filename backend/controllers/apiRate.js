@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   try {
     //console.log(req.ip);
     // let clientIP = req.ip;
-    let newIP = req.ip;
+    let newIP = "apirateLimit";
     console.log(req.ip);
 
     if (myCache.has(newIP)) {
