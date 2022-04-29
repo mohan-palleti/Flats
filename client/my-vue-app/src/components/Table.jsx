@@ -24,8 +24,6 @@ function Table() {
         },
       })
       .then((res) => {
-        // console.log("fetching success", res.data);
-        //setCitiesData(res.data);
         dispatch(getData(res.data));
         setResData(res.data);
       });
@@ -36,8 +34,6 @@ function Table() {
     data = data.sort((a, b) => a.number - b.number);
     //console.log(data);
     setResData([...data]);
-    //setSort(!sort);
-    // dispatch(getData(data));
   }
   function eachFlat(i) {
     navigate(`/flat/${i}`);
